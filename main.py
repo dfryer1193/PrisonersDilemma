@@ -7,10 +7,17 @@
 # Created:     06/05/2013
 #-------------------------------------------------------------------------------
 
-class PermenantRetaliation():
-    def __init__(self, beenExploited):
-        self.beenExploited = beenExploited
+class Player(object):
+    """Base class for the two players"""
+    def __init__(self, id):
         self.points=0
+        self.id=id
+        
+
+class PermenantRetaliation(Player):
+    def __init__(self, id, beenExploited):
+        super(PermenantRetaliation, self).__init__(id)
+        self.beenExploited=beenExploited
 
     def play():
         if(beenExploited):
@@ -20,10 +27,14 @@ class PermenantRetaliation():
 
 class AlwaysExploit():
     def __init__(self):
-        self.points=0
+        super(AlwaysExploit, self).__init__()
 
     def play():
         return True #Always returns true
+
+def playGame(player1, player2):
+    #this will play a single round between 2 players
+    pass
 
 def main():
     #Constants definining what happens after a single round
@@ -53,6 +64,8 @@ def main():
     else:
         players[i]=AlwaysExploit()
     #TODO: Play 1 Round
+    sum=0
+
     #   TODO: Calc avg
     #   TODO: Calc std. deviation
     #TODO: Output 1 round
