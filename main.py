@@ -13,17 +13,22 @@ class Player(object):
         self.points=0
         self.id=id
         
-
 class PermenantRetaliation(Player):
+    """Permenant Retaliation player"""
     def __init__(self, id, beenExploited):
         super(PermenantRetaliation, self).__init__(id)
-        self.beenExploited=beenExploited
+        self.beenExploited=[]
 
-    def play():
-        if(beenExploited):
+    def play(id):
+        """plays a round against a player of id"""
+        if(id in self.beenExploited):
             return True #Once exploited, returns true
         else: 
             return False #Returns false until exploited
+
+    def beenExploited(id):
+        """plays a round against a player of id"""
+        self.beenExploited.append(id)
 
 class AlwaysExploit():
     def __init__(self):
