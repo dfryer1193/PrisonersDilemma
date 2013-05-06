@@ -126,6 +126,12 @@ Thumbs.db
 # Folder config file
 Desktop.ini
 
+#############
+## PyScripter
+#############
+
+#PyScripter Projects
+*.psproj
 
 #############
 ## Python
