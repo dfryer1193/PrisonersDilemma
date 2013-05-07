@@ -22,21 +22,20 @@ class Player(object):
         self.pointsPerRound = 0.0
 
     def __repr__(self):
-        return  type(self).__name__ + " " + str(self.id)
+        return  type(self).__name__ + ":" + str(self.id) + ":" + str(self.points)
 
-    def reset(self, id):
+    def reset(self):
         self.points=0
         self.roundsPlayed=0
         self.pointsPerRound=0.0
-        self.id = 0
 
     def calcPointsPerRound(self):
         self.pointsPerRound = float(self.points)/float(self.roundsPlayed)
 
-class PermenantRetaliation(Player):
+class PermanentRetaliation(Player):
     """Permenant Retaliation player"""
     def __init__(self, id):
-        super(PermenantRetaliation, self).__init__(id)
+        super(PermanentRetaliation, self).__init__(id)
         self.beenExploited=[]
 
     def play(self, id):
@@ -50,10 +49,6 @@ class PermenantRetaliation(Player):
         """plays a round against a player of id"""
         if (id not in self.beenExploited):
             self.beenExploited.append(id)
-
-    def reset(self, id):
-        super().reset(id)
-        self.beenExploited=[]
 
 class AlwaysExploit(Player):
     def __init__(self, id):
@@ -79,6 +74,7 @@ def playGame(player1, player2, w):
     while(rand>w):
         playTurn(player1, player2)
         rand = randint(1, 10000) % 100
+        w**2
 
 def playTurn(player1, player2):
     p1 = player1.play(player2.id)
@@ -110,14 +106,14 @@ def playTurn(player1, player2):
 def getNumPR(players):
     numPR=0
     for player in players:
-        if type(player).__name__ == "PermenantRetaliation":
+        if type(player).__name__ == "PermanentRetaliation":
             numPR+=1
     return numPR
 
 def getAvgPPR(players):
     sum=0
     for player in players:
-        sum += player.pointsPerRound
+        sum += player.points#PerRound
     return sum/float(len(players))
 
 def getStdDeviation(players, avg):
@@ -131,13 +127,12 @@ def main():
 
     numPlayers=input("Input the number of players: ")
     numPlayers=int(numPlayers)
-    print(numPlayers)
     fractionPR=input("Input the % of players playing PR: ")
     fractionPR=float(fractionPR)
-    print(fractionPR)
     w=input("What is the probability of another round occuring: ")
     w=float(w)
-    print(w)
+    numRounds=input("How many rounds should be played: ")
+    numRounds=int(numRounds)
 
     players=[]
 
@@ -146,19 +141,17 @@ def main():
     #Initialize Players
     for i in range(0, numPlayers):
         if i<numPR:
-            players.append(PermenantRetaliation(i))
+            players.append(PermanentRetaliation(i))
         else:
             players.append(AlwaysExploit(i))
 
-    #Round robin scheduling
-    schedule = scheduleMatches(players)
-
     #Play rounds
-    rounds=0
+    rounds=1
     nextRound='y'
     #while(nextRound == 'y' or nextRound =='Y'):
-    for x in range(1,10000):
-        pass
+    for x in range(0,numRounds):
+        #Round robin scheduling
+        schedule = scheduleMatches(players)
         playRound(schedule, w)
         print("##############################")
         print("Round " + str(rounds) + " stats")
@@ -166,30 +159,42 @@ def main():
         avgPPR = getAvgPPR(players)
         print("\tNumber of Players: " + str(numPlayers))
         print("\tNumber playing PR: " + str(getNumPR(players)))
-        print("\tAverage points per round: " + str(avgPPR))
+        print("\tAverage points: " + str(avgPPR))
         #nextRound=input("Should there be a new round? (y/n): ")
         if(nextRound == 'y' or nextRound == 'Y'):
-            players = sorted(players, key=lambda player: player.pointsPerRound)
+            #players = sorted(players, key=lambda player: player.pointsPerRound)
             stdDev = getStdDeviation(players, avgPPR)
             i=0
             #prune below std. deviation
-            while(players[i].pointsPerRound + stdDev <= avgPPR):
-                i+=1
-            belowStdDev=i
-            #copy above std. deviation
-            while(players[i].pointsPerRound - stdDev > avgPPR):
-                i+=1
-            aboveStdDev=players[i:]
-            for j in range(0,belowStdDev):
-                temp = aboveStdDev[(len(aboveStdDev)-(j+1))]
-                if type(temp).__name__ == "PermenantRetaliation":
-                    players[i] = PermenantRetaliation(i)
-                elif type(temp).__name__ == "AlwaysExploit":
-                    players[i] = AlwaysExploit(i)
-            i=0
+            belowStdDev=[]
+            aboveStdDev=[]
             for player in players:
-                player.reset(i)
-                i+=1
+                if avgPPR-(0.3*stdDev) > player.points: #TODO: Play with these values more
+                    belowStdDev.append(player.id)
+                elif avgPPR+(0.1*stdDev) <= player.points:
+                    aboveStdDev.append(player.id)
+
+            #create new generation
+            for i in range(0, len(belowStdDev)):
+                if i<len(aboveStdDev):
+                    if type(players[aboveStdDev[i]]).__name__ == "PermanentRetaliation":
+                        players[belowStdDev[i]] = PermanentRetaliation(belowStdDev[i])
+                    elif type(players[aboveStdDev[i]]).__name__ == "AlwaysExploit":
+                        players[belowStdDev[i]] = AlwaysExploit(belowStdDev[i])
+                else:
+                    players[belowStdDev[i]] = AlwaysExploit(belowStdDev[i])
+
+            for player in players:
+                player.reset()
+                if player.id in belowStdDev:
+                    for player2 in players:
+                        if type(player2).__name__ == "PermanentRetaliation":
+                            if player.id in player2.beenExploited:
+                                player2.beenExploited.remove(player.id)
+                        else:
+                            continue
+                else:
+                    continue
             print("Next generation...")
             print()
         rounds+=1
