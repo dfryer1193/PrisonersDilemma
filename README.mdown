@@ -23,3 +23,14 @@ Red's Points:               Blue's Points:
 	|e| |   |   |				|e| |   |   |
 	+-----------+				+-----------+
 </pre>
+##Running the Program##
+###Prerequisites###
+*Python3
+*A Terminal
+**Was that so hard!?**
+
+###Running it###
+In terminal, type 
+		python main.py
+When asked for a percentage, enter it as a decimal between 0 and 1 (0<x<1).
+Enjoy!
