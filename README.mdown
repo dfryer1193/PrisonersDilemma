@@ -7,7 +7,8 @@ In order to make the implementation simpler, I broke the game down into two stra
 * Always Exploit (AE)
 	* Will always exploit the other player
 * Permanent Retaliation (PR)
-	* Cooperates with the other player until exploited by them, at which point they will exploit the other player.
+	* Cooperates with the other player until exploited by them, at which point they will exploit the other player.  
+
 #Points#
 Points break down as such:  
 Red's Points:               Blue's Points:  
