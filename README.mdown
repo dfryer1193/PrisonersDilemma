@@ -25,7 +25,7 @@ Red's Points:               Blue's Points:
 </pre>
 ##Running the Program##
 ###Prerequisites###
-* Python3
+* Python3  
 * A Terminal  
 **Was that so hard!?**
 
