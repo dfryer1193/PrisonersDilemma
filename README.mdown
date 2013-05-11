@@ -11,7 +11,8 @@ In order to make the implementation simpler, I broke the game down into two stra
 
 #Points#
 Points break down as such:  
-Red's Points:               Blue's Points:<pre>
+<pre>
+Red's Points:               Blue's Points:
 	+-----------+				+-----------+
 	| |  Red    |				| |  Red    |
 	|-+---------|				|-+---------|
