@@ -8,3 +8,15 @@ In order to make the implementation simpler, I broke the game down into two stra
 	* Will always exploit the other player
 * Permanent Retaliation (PR)
 	* Cooperates with the other player until exploited by them, at which point they will exploit the other player.
+#Points#
+Points break down as such:  
+Red's Points:               Blue's Points:  
+	+-----------+				+-----------+
+	| |  Red    |				| |  Red    |
+	|-+---------|				|-+---------|
+	| |_| E | C |				| |_| E | C |
+	|B|E| 3 | 1 |				|B|E| 3 | 11|
+	|l|_|___|___|				|l|_|___|___|
+	|u|C| 11| 7 |				|u|C| 1 | 7 |
+	|e| |   |   |				|e| |   |   |
+	+-----------+				+-----------+
