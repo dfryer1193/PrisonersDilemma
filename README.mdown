@@ -4,7 +4,7 @@
 Prisoner's Dilemma is a game between two players, in which each player chooses to either cooperate with or exploit the other player. Each move happens simultaneously, and at the end of each turn points are awarded based on what moves were made by the players.  
 The point of this program is to simulate an entire ecosystem of `N` number of players, playing in a round-robin. Once each player has played all other players, the lowest scoring players are eliminated and replaced with copies of those that scored highest.  
 In order to make the implementation simpler, I broke the game down into two strategies:  
-*Always Exploit (AE)
-	*Will always exploit the other player
-*Permanent Retaliation (PR)
-	*Cooperates with the other player until exploited by them, at which point they will exploit the other player.
+* Always Exploit (AE)
+	* Will always exploit the other player
+* Permanent Retaliation (PR)
+	* Cooperates with the other player until exploited by them, at which point they will exploit the other player.
