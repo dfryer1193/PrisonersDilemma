@@ -67,9 +67,17 @@ def scheduleMatches(players):
             schedule.append([players[i],players[j]])
     return schedule
 
+def getHash(schedule):
+    hashCode = 0
+    for pair in schedule:
+        for player in pair:
+            hashCode+=hash(player)
+    return hashCode
+
 def playRound(schedule, w):
     sum=0
     matches=0
+    seed(getHash(schedule))
     for match in schedule:
         sum+=playGame(match[0], match[1], w)
         matches+=1
